@@ -10,4 +10,9 @@ headers = {
 # получаем код страницы товаров
 html = requests.get("https://krasnoeibeloe.ru/catalog/").text
 
+with open("data/catalog.html", "w") as file:
+    file.write(html)  # запишем код страницы в отдельный файл на всякий случай
+
 soup = BeautifulSoup(html, "lxml")  # lxml - самый быстрый парсер
+
+# получаем все ссылки со страницы товаров
