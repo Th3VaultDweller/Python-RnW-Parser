@@ -9,7 +9,13 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait as wait
 
-driver = webdriver.Chrome()
-driver.get("https://www.google.com/")
+# берём драйвер для работы Selenium
+browser = webdriver.Chrome()
+browser.get("https://www.google.com/")
+
+# определяем URL сайта
+url = "https://krasnoeibeloe.ru/"
+browser.get(url)
+
 time.sleep(5)
-driver.quit()
+browser.quit()
