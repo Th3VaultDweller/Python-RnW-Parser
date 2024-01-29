@@ -29,7 +29,6 @@ browser.get("https://www.google.com/")
 # определяем URL сайта
 url = "https://krasnoeibeloe.ru/"
 browser.get(url)
-time.sleep(random.randrange(5, 15))
 
 # ждём появления кнопки и проходим проверку на возраст
 age_popup = (
@@ -52,6 +51,10 @@ catalogue = browser.find_element(
 time.sleep(random.randrange(5, 15))
 
 # и пробуем собрать все товары из одной категории
+category = browser.find_element(
+    By.XPATH, "/html/body/div[1]/div/div[2]/div/div[2]/div[2]/div[1]/div[2]/a"
+).click()
 
+time.sleep(random.randrange(5, 15))
 
 browser.quit()
