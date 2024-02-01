@@ -61,10 +61,10 @@ time.sleep(random.randrange(5, 15))
 
 all_product_links = browser.find_element(
     By.XPATH, "/html/body/div[1]/div/div[2]/div/div[2]/div[6]"
-).find_elements("catalog_product_item").text()
+).find_elements("catalog_product_item")
 for link in all_product_links:
-    link_text = all_product_links.get_attribute("text")  # название товара
-    link_href = all_product_links.get_attribute("href")  # ccылка на товар
+    link_text = link.get_attribute("text")  # название товара
+    link_href = link.get_attribute("href")  # ccылка на товар
     # print(i)  # нумерация товаров начинается с нуля
     print(f"{link_text.strip()}: {link_href}")
 
