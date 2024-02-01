@@ -61,12 +61,12 @@ time.sleep(random.randrange(5, 15))
 # и пробуем собрать все товары из одной категории
 all_product_links = browser.find_element(
     By.XPATH, "/html/body/div[1]/div/div[2]/div/div[2]/div[6]"
-).find_elements("catalog_product_item")
+).find_elements(By.CLASS_NAME, "product_item_name")
 for link in all_product_links:
     link_text = link.get_attribute("text")  # название товара
     link_href = link.get_attribute("href")  # ccылка на товар
     # print(i)  # нумерация товаров начинается с нуля
-    print(f"{link_text.strip()}: {link_href}")
+    print(f"{link_text}: {link_href}")
 
 
 browser.quit()
