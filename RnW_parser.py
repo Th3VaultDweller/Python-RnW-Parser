@@ -43,7 +43,6 @@ else:
     pass
     time.sleep(random.randrange(2, 5))
 
-
 # переходим в каталог
 catalogue = browser.find_element(
     By.XPATH, "/html/body/div[1]/div/header/div/div[2]/div[3]/nav/ul/li[1]/a"
@@ -51,7 +50,7 @@ catalogue = browser.find_element(
 
 time.sleep(random.randrange(2, 5))
 
-# и пробуем собрать все товары из одной категории
+# кликаем на нужную категорию товаров
 category = browser.find_element(
     By.XPATH, "/html/body/div[1]/div/div[2]/div/div[2]/div[2]/div[1]/div[2]/a"
 )
@@ -59,6 +58,7 @@ category.click()
 
 time.sleep(random.randrange(5, 15))
 
+# и пробуем собрать все товары из одной категории
 all_product_links = browser.find_element(
     By.XPATH, "/html/body/div[1]/div/div[2]/div/div[2]/div[6]"
 ).find_elements("catalog_product_item")
