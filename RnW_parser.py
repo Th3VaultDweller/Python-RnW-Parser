@@ -67,9 +67,16 @@ for i, link in enumerate(all_product_links):
     link_href = link.find_element(By.TAG_NAME, "a").get_property(
         "href"
     )  # ccылка на товар
-    link_subtitle = link.find_element(By.CLASS_NAME, "product-subtitle").text
+    link_subtitle = link.find_element(
+        By.CLASS_NAME, "product-subtitle"
+    ).text  # сопутствующая информация о товаре
+    link_price = (
+        link.find_element(By.CLASS_NAME, "i-price")
+        .find_element(By.TAG_NAME, "div")
+        .text
+    )  # цента товара
     print(i)  # нумерация товаров начинается с нуля
     print(
-        f"Название: {link_text}\nСсылка: {link_href}\nСтрана, объём и процент алкоголя: {link_subtitle}"
+        f"Название: {link_text}\nСсылка: {link_href}\nСтрана, объём и процент алкоголя: {link_subtitle}\n"
     )
 browser.quit()
