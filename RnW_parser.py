@@ -70,13 +70,21 @@ for i, link in enumerate(all_product_links):
     link_subtitle = link.find_element(
         By.CLASS_NAME, "product-subtitle"
     ).text  # сопутствующая информация о товаре
-    link_price = (
-        link.find_element(By.CLASS_NAME, "i_price")
-        .find_element(By.TAG_NAME, "div")
-        .text
-    )  # цента товара
+
     print(i)  # нумерация товаров начинается с нуля
     print(
-        f"Название: {link_text}\nСсылка: {link_href}\nСтрана, объём и процент алкоголя: {link_subtitle}\nЦена: {link_price}"
+        f"Название: {link_text}\nСтрана, объём и процент алкоголя: {link_subtitle}\nСсылка: {link_href}\n"
     )
+    time.sleep(random.randrange(2, 5))
+
+product_price = browser.find_elements(By.CLASS_NAME, "i_price")  # цента товара
+for price in product_price:
+    if product_price:
+        link_price = price.find_element(By.TAG_NAME, "div").text
+        print(f"Цена: {link_price}")
+    else:
+        print(f"Цену на товар можно уточнить в магазине")
+
+time.sleep(random.randrange(2, 5))
+
 browser.quit()
