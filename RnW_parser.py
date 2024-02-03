@@ -14,12 +14,12 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait as wait
 from webdriver_manager.chrome import ChromeDriverManager
 
-# делаем опцию для запуска браузера в режиме инкогнито
+# прописываем опции для запуска браузера
 option = Options()
 option = webdriver.ChromeOptions()
-option.add_argument("--incognito")
-option.add_argument("--disable-infobars")
-option.add_argument("--start-maximized")
+option.add_argument("--incognito")  # режим инкогнито
+option.add_argument("--disable-infobars")  # отключение всплывающих окон
+option.add_argument("--start-maximized")  # включение полноэкранного режима
 
 # берём драйвер для работы Selenium и запускаем Chrome на странице поиска в режиме инкогнито
 browser = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
@@ -71,12 +71,12 @@ for i, link in enumerate(all_product_links):
         By.CLASS_NAME, "product-subtitle"
     ).text  # сопутствующая информация о товаре
     link_price = (
-        link.find_element(By.CLASS_NAME, "i-price")
+        link.find_element(By.CLASS_NAME, "i_price")
         .find_element(By.TAG_NAME, "div")
         .text
     )  # цента товара
     print(i)  # нумерация товаров начинается с нуля
     print(
-        f"Название: {link_text}\nСсылка: {link_href}\nСтрана, объём и процент алкоголя: {link_subtitle}\n"
+        f"Название: {link_text}\nСсылка: {link_href}\nСтрана, объём и процент алкоголя: {link_subtitle}\nЦена: {link_price}"
     )
 browser.quit()
