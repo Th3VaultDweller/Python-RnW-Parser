@@ -83,31 +83,23 @@ for i, link in enumerate(all_product_links):
         .text
     )  # сопутствующая информация о товаре
 
+    print(i)  # нумерация товаров начинается с нуля
+    
     link_price = link.find_element(
         By.CLASS_NAME, "product_item_bottom-btns"
     )  # цена на товар
 
-    if not link_price.find_element(By.CLASS_NAME, "i_price"):
+    if link_price.find_element(By.TAG_NAME, "a").text:
         print(f"Цену товара можно уточнить в магазине.")
     else:
-        link_price.find_element(By.CLASS_NAME, "i_price").find_element(
-            By.TAG_NAME, "div"
-        ).text
+        product_price = link_price.find_elements(By.CLASS_NAME, "i_price")  # цена товара
+        for price in product_price:
+            if product_price:
+                link_price = price.find_element(By.TAG_NAME, "div").text
 
-    print(i)  # нумерация товаров начинается с нуля
     print(
         f"Название: {link_text}\nСтрана, объём и процент алкоголя: {link_subtitle}\nЦена: {link_price}\nСсылка: {link_href}\n"
     )
     time.sleep(random.randrange(2, 5))
-
-# product_price = browser.find_elements(By.CLASS_NAME, "i_price")  # цена товара
-# for price in product_price:
-#     if product_price:
-#         link_price = price.find_element(By.TAG_NAME, "div").text
-#         print(f"Цена: {link_price}")
-#     else:
-#         print(f"Цену на товар можно уточнить в магазине")
-
-# time.sleep(random.randrange(2, 5))
 
 browser.quit()
