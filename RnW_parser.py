@@ -45,76 +45,76 @@ else:
     pass
     time.sleep(random.randrange(2, 5))
 
-print("Перехожу в каталог товаров...")
+print("Перехожу в каталог товаров...\n")
 
-# переходим в каталог
-catalogue = browser.find_element(
-    By.XPATH, "/html/body/div[1]/div/header/div/div[2]/div[3]/nav/ul/li[1]/a"
-).click()
+all_categories = browser.find_element(By.CLASS_NAME, "left_catalog").find_elements(
+    By.TAG_NAME, "a"
+)  # все категории товаров на сайте
 
-time.sleep(random.randrange(2, 5))
+for category in all_categories:
 
-# кликаем на нужную категорию товаров
-category = browser.find_element(
-    By.XPATH, "/html/body/div[1]/div/div[2]/div/div[2]/div[2]/div[1]/div[2]/a"
-)
-category.click()
-print("Выбираю категорию товара...\n")
+    # кликаем на нужную категорию товаров
+    category_choice = category.click()
 
-time.sleep(random.randrange(5, 15))
-print("Начинаю парсинг информации...\n")
-
-# и пробуем собрать все товары из одной категории
-all_product_links = browser.find_element(
-    By.XPATH, "/html/body/div[1]/div/div[2]/div/div[2]/div[6]"
-).find_elements(By.CLASS_NAME, "catalog_product_item_cont")
-
-for i, link in enumerate(all_product_links):
-
-    link_text = (
-        link.find_element(By.CLASS_NAME, "product_item_name")
-        .find_element(By.TAG_NAME, "a")
-        .text
-    )  # название товара
-
-    link_href = (
-        link.find_element(By.CLASS_NAME, "product_item_name")
-        .find_element(By.TAG_NAME, "a")
-        .get_property("href")
-    )  # ccылка на товар
-
-    link_subtitle = (
-        link.find_element(By.CLASS_NAME, "product_item_name")
-        .find_element(By.CLASS_NAME, "product-subtitle")
-        .text
-    )  # сопутствующая информация о товаре
-
-    link_rating = (
-        link.find_element(By.CLASS_NAME, "product_item_bottom")
-        .find_element(By.CLASS_NAME, "rate_votes")
-        .text
-    )  # количество оценок товара
-
-    print(i)  # нумерация товаров начинается с нуля
-
-    link_price = link.find_element(
-        By.CLASS_NAME, "product_item_bottom-btns"
-    )  # цена на товар
-
-    if link_price.find_element(By.TAG_NAME, "a").text:
-        print(f"Цену товара можно уточнить в магазине.")
-    else:
-        product_price = link_price.find_elements(
-            By.CLASS_NAME, "i_price"
-        )  # цена товара
-        for price in product_price:
-            if product_price:
-                link_price = price.find_element(By.TAG_NAME, "div").text
-
-    print(
-        f"Название: {link_text}\nСтрана, объём и процент алкоголя: {link_subtitle}\nКоличество оценок: {link_rating}\nЦена: {link_price}\nСсылка: {link_href}\n"
-    )
     time.sleep(random.randrange(2, 5))
+    print("Выбираю категорию товара...\n")
+
+    time.sleep(random.randrange(5, 15))
+    print("Начинаю парсинг информации...\n")
+
+    # и пробуем собрать все товары из одной категории
+    all_product_links = browser.find_element(
+        By.XPATH, "/html/body/div[1]/div/div[2]/div/div[2]/div[6]"
+    ).find_elements(By.CLASS_NAME, "catalog_product_item_cont")
+
+    for i, link in enumerate(all_product_links):
+
+        link_text = (
+            link.find_element(By.CLASS_NAME, "product_item_name")
+            .find_element(By.TAG_NAME, "a")
+            .text
+        )  # название товара
+
+        link_href = (
+            link.find_element(By.CLASS_NAME, "product_item_name")
+            .find_element(By.TAG_NAME, "a")
+            .get_property("href")
+        )  # ccылка на товар
+
+        link_subtitle = (
+            link.find_element(By.CLASS_NAME, "product_item_name")
+            .find_element(By.CLASS_NAME, "product-subtitle")
+            .text
+        )  # сопутствующая информация о товаре
+
+        link_rating = (
+            link.find_element(By.CLASS_NAME, "product_item_bottom")
+            .find_element(By.CLASS_NAME, "rate_votes")
+            .text
+        )  # количество оценок товара
+
+        print(i)  # нумерация товаров начинается с нуля
+
+        link_price = link.find_element(
+            By.CLASS_NAME, "product_item_bottom-btns"
+        )  # цена на товар
+
+        if link_price.find_element(By.TAG_NAME, "a").text:
+            print(f"Цену товара можно уточнить в магазине.")
+        else:
+            product_price = link_price.find_elements(
+                By.CLASS_NAME, "i_price"
+            )  # цена товара
+            for price in product_price:
+                if product_price:
+                    link_price = price.find_element(By.TAG_NAME, "div").text
+
+        print(
+            f"Название: {link_text}\nСтрана, объём и процент алкоголя: {link_subtitle}\nКоличество оценок: {link_rating}\nЦена: {link_price}\nСсылка: {link_href}\n"
+        )
+        time.sleep(random.randrange(2, 5))
+
+    browser.get(url)  # возврат на домашнюю страницу сайта
 
 print(f"Парсинг сайта {url} завершён!\n")
 
