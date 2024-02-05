@@ -40,16 +40,17 @@ if element_to_be_clicked:
         .until(EC.visibility_of_element_located((By.XPATH, element_to_be_clicked)))
         .click()
     )
-    print("Проверка на возраст прошла успешно. Перехожу в каталог товаров...\n")
+    print("Проверка на возраст прошла успешно.\n")
 else:
     pass
     time.sleep(random.randrange(2, 5))
+
+print("Перехожу в каталог товаров...")
 
 # переходим в каталог
 catalogue = browser.find_element(
     By.XPATH, "/html/body/div[1]/div/header/div/div[2]/div[3]/nav/ul/li[1]/a"
 ).click()
-print("Переход в каталог товаров...\n")
 
 time.sleep(random.randrange(2, 5))
 
@@ -58,7 +59,7 @@ category = browser.find_element(
     By.XPATH, "/html/body/div[1]/div/div[2]/div/div[2]/div[2]/div[1]/div[2]/a"
 )
 category.click()
-print("Выбор категории товара...\n")
+print("Выбираю категорию товара...\n")
 
 time.sleep(random.randrange(5, 15))
 print("Начинаю парсинг информации...\n")
