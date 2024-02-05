@@ -24,14 +24,15 @@ option.add_argument("--start-maximized")  # включение полноэкр�
 # берём драйвер для работы Selenium и запускаем Chrome на странице поиска в режиме инкогнито
 browser = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
 browser = webdriver.Chrome(options=option)
-browser.get("https://www.google.com/")
 
 # определяем URL сайта
 url = "https://krasnoeibeloe.ru/"
 browser.get(url)
+print(f"Перехожу на сайт {url}...\n")
 
 # ждём появления кнопки и проходим проверку на возраст
 element_to_be_clicked = "/html/body/div[7]/div/div/div/div/div/div[2]/div[2]/a[1]"
+print("Жду появления окна с подтверждением возраста...\n")
 
 if element_to_be_clicked:
     age_popup = (
