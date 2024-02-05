@@ -4,7 +4,7 @@ import time
 import requests
 from bs4 import BeautifulSoup
 from selenium import webdriver
-from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import NoSuchElementException, TimeoutException
 from selenium.webdriver import Chrome
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
@@ -39,6 +39,7 @@ if element_to_be_clicked:
         .until(EC.visibility_of_element_located((By.XPATH, element_to_be_clicked)))
         .click()
     )
+    print("Проверка на возраст прошла успешно. Перехожу в каталог товаров...\n")
 else:
     pass
     time.sleep(random.randrange(2, 5))
@@ -47,6 +48,7 @@ else:
 catalogue = browser.find_element(
     By.XPATH, "/html/body/div[1]/div/header/div/div[2]/div[3]/nav/ul/li[1]/a"
 ).click()
+print("Переход в каталог товаров...\n")
 
 time.sleep(random.randrange(2, 5))
 
@@ -55,8 +57,10 @@ category = browser.find_element(
     By.XPATH, "/html/body/div[1]/div/div[2]/div/div[2]/div[2]/div[1]/div[2]/a"
 )
 category.click()
+print("Выбор категории товара...\n")
 
 time.sleep(random.randrange(5, 15))
+print("Начинаю парсинг информации...\n")
 
 # и пробуем собрать все товары из одной категории
 all_product_links = browser.find_element(
@@ -87,7 +91,7 @@ for i, link in enumerate(all_product_links):
         link.find_element(By.CLASS_NAME, "product_item_bottom")
         .find_element(By.CLASS_NAME, "rate_votes")
         .text
-    ) # количество оценок товара
+    )  # количество оценок товара
 
     print(i)  # нумерация товаров начинается с нуля
 
@@ -109,5 +113,7 @@ for i, link in enumerate(all_product_links):
         f"Название: {link_text}\nСтрана, объём и процент алкоголя: {link_subtitle}\nКоличество оценок: {link_rating}\nЦена: {link_price}\nСсылка: {link_href}\n"
     )
     time.sleep(random.randrange(2, 5))
+
+print(f"Парсинг сайта {url} завершён!\n")
 
 browser.quit()
