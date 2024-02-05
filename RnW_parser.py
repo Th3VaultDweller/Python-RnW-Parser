@@ -21,7 +21,7 @@ option.add_argument("--incognito")  # режим инкогнито
 option.add_argument("--disable-infobars")  # отключение всплывающих окон
 option.add_argument("--start-maximized")  # включение полноэкранного режима
 
-# берём драйвер для работы Selenium и запускаем Chrome на странице поиска в режиме инкогнито
+# берём драйвер для работы Selenium
 browser = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
 browser = webdriver.Chrome(options=option)
 
