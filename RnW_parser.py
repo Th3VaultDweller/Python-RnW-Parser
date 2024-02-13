@@ -50,9 +50,10 @@ print("Перехожу в каталог товаров...\n")
 all_categories = browser.find_element(By.CLASS_NAME, "left_catalog").find_elements(
     By.TAG_NAME, "a"
 )  # все категории товаров на сайте
+print(all_categories)
 
 for category in all_categories:
-
+    time.sleep(25)
     # кликаем на нужную категорию товаров
     category_choice = category.click()
 
@@ -112,7 +113,7 @@ for category in all_categories:
         print(
             f"Название: {link_text}\nСтрана, объём и процент алкоголя: {link_subtitle}\nКоличество оценок: {link_rating}\nЦена: {link_price}\nСсылка: {link_href}\n"
         )
-        time.sleep(random.randrange(2, 5))
+        time.sleep(random.randrange(5, 10))
 
     browser.get(url)  # возврат на домашнюю страницу сайта
 
