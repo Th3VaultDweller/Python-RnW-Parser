@@ -47,20 +47,20 @@ else:
 
 print("Перехожу в каталог товаров...\n")
 
-all_categories = browser.find_element(By.CLASS_NAME, "left_catalog").find_elements(
+all_categories = browser.find_element(By.CLASS_NAME, "left_catalog_c").find_elements(
     By.TAG_NAME, "a"
 )  # все категории товаров на сайте
 
 for category in all_categories:
     time.sleep(25)
-    category_name = category.get_attribute("href")
+    category_url = category.get_attribute("href")
+    print(f"Перехожу по адресу категории {category_url}\n")
     # кликаем на нужную категорию товаров
-    category_choice = category.click()
+    category.click()
+    time.sleep(random.randrange(2, 5))
     category_inner_name = browser.find_element(By.TAG_NAME, "h1").text
     time.sleep(random.randrange(2, 5))
-    print(
-        f"\nВыбираю категорию товара <<{category_inner_name}>> по адресу {category_name}\n"
-    )
+    print(f"Выбираю категорию товара <<{category_inner_name}>>\n")
 
     time.sleep(random.randrange(5, 15))
     print("Начинаю парсинг информации...\n")
@@ -117,7 +117,9 @@ for category in all_categories:
         )
         time.sleep(random.randrange(5, 10))
 
+    print(f"Возвращаюсь на главную страницу сайта {url}\n")
     browser.get(url)  # возврат на домашнюю страницу сайта
+    time.sleep(60)
 
 print(f"Парсинг сайта {url} завершён!\n")
 
