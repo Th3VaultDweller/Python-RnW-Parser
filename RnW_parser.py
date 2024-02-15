@@ -47,13 +47,31 @@ else:
 
 print("Перехожу в каталог товаров...\n")
 
-all_categories = browser.find_element(By.CLASS_NAME, "left_catalog_c").find_elements(
-    By.TAG_NAME, "a"
+# берём все ссылки на категории товаров через BeautifulSoup
+html = requests.get("https://krasnoeibeloe.ru/").text
+soup = BeautifulSoup(html, "lxml")
+
+all_categories = soup.find("div", class_="left_catalog_c").find_all(
+    "a", href=True
 )  # все категории товаров на сайте
+
+print("Вывожу на экран ссылки на категории товаров...\n")
+for i, link in enumerate(all_categories):
+    link_text = link.text  # название ссылки
+    url = link.get("href")  # ссылка
+
+    print(f"\n")
+    print(i)
+    print(f"{link_text.strip()}: {url}")
+    time.sleep(5)
+
+# all_categories = browser.find_element(By.CLASS_NAME, "left_catalog_c").find_elements(
+#     By.TAG_NAME, "a"
+# )  # все категории товаров на сайте
 
 for category in all_categories:
     time.sleep(25)
-    category_url = category.get_attribute("href")
+    category_url = category.get("href")
     print(f"Перехожу по адресу категории {category_url}\n")
     # кликаем на нужную категорию товаров
     category.click()
