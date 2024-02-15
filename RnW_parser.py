@@ -36,7 +36,7 @@ print("Жду появления окна с подтверждением воз
 
 if element_to_be_clicked:
     age_popup = (
-        wait(browser, 60)
+        wait(browser, 120)
         .until(EC.visibility_of_element_located((By.XPATH, element_to_be_clicked)))
         .click()
     )
@@ -50,15 +50,17 @@ print("Перехожу в каталог товаров...\n")
 all_categories = browser.find_element(By.CLASS_NAME, "left_catalog").find_elements(
     By.TAG_NAME, "a"
 )  # все категории товаров на сайте
-print(all_categories)
 
 for category in all_categories:
     time.sleep(25)
+    category_name = category.get_attribute("href")
     # кликаем на нужную категорию товаров
     category_choice = category.click()
-    category_name = browser.find_element(By.TAG_NAME, "h1").text
+    category_inner_name = browser.find_element(By.TAG_NAME, "h1").text
     time.sleep(random.randrange(2, 5))
-    print(f"Выбираю категорию товара <<{category_name}>>\n")
+    print(
+        f"\nВыбираю категорию товара <<{category_inner_name}>> по адресу {category_name}\n"
+    )
 
     time.sleep(random.randrange(5, 15))
     print("Начинаю парсинг информации...\n")
