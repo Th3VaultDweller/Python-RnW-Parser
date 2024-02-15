@@ -56,9 +56,9 @@ for category in all_categories:
     time.sleep(25)
     # кликаем на нужную категорию товаров
     category_choice = category.click()
-
+    category_name = browser.find_element(By.TAG_NAME, "h1").text
     time.sleep(random.randrange(2, 5))
-    print("Выбираю категорию товара...\n")
+    print(f"Выбираю категорию товара <<{category_name}>>\n")
 
     time.sleep(random.randrange(5, 15))
     print("Начинаю парсинг информации...\n")
