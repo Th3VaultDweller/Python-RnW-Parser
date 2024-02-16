@@ -1,3 +1,4 @@
+import json
 import random
 import time
 
@@ -47,31 +48,33 @@ else:
 
 print("Перехожу в каталог товаров...\n")
 
-# берём все ссылки на категории товаров через BeautifulSoup
-html = requests.get("https://krasnoeibeloe.ru/").text
-soup = BeautifulSoup(html, "lxml")
-
-all_categories = soup.find("div", class_="left_catalog_c").find_all(
-    "a", href=True
+# находим каталог товаров на странице
+all_categories = browser.find_element(By.CLASS_NAME, "left_catalog_c").find_elements(
+    By.TAG_NAME, "a"
 )  # все категории товаров на сайте
 
-print("Вывожу на экран ссылки на категории товаров...\n")
-for i, link in enumerate(all_categories):
-    link_text = link.text  # название ссылки
-    url = link.get("href")  # ссылка
+# берём каждую ссылку и каталога товаров
+print(f"Вывожу на экран все категории товаров и сохраняю их в файл...\n")
+all_categories_links_dict = {}
+for link in all_categories:
+    link_text = link.text
+    link_href = link.get_attribute("href")
+    print(f"{link_text}: {link_href}")
 
-    print(f"\n")
-    print(i)
-    print(f"{link_text.strip()}: {url}")
-    time.sleep(5)
+    all_categories_links_dict[link_text] = link_href
 
-# all_categories = browser.find_element(By.CLASS_NAME, "left_catalog_c").find_elements(
-#     By.TAG_NAME, "a"
-# )  # все категории товаров на сайте
+    # сохраняем каждую ссылку из каталога товаров в отдельный json-файл
+    with open("all_categories_links.json", "w") as file:
+        json.dump(all_categories_links_dict, file, indent=4, ensure_ascii=False)
 
-for category in all_categories:
+# открываем сохранённый файл
+with open("all_categories_links.json") as file:
+    all_links = json.load(file)
+
+# и считываем ссылки из файла
+for category in all_links:
     time.sleep(25)
-    category_url = category.get("href")
+    category_url = category.get_attribute("href")
     print(f"Перехожу по адресу категории {category_url}\n")
     # кликаем на нужную категорию товаров
     category.click()
@@ -134,10 +137,6 @@ for category in all_categories:
             f"Название: {link_text}\nСтрана, объём и процент алкоголя: {link_subtitle}\nКоличество оценок: {link_rating}\nЦена: {link_price}\nСсылка: {link_href}\n"
         )
         time.sleep(random.randrange(5, 10))
-
-    print(f"Возвращаюсь на главную страницу сайта {url}\n")
-    browser.get(url)  # возврат на домашнюю страницу сайта
-    time.sleep(60)
 
 print(f"Парсинг сайта {url} завершён!\n")
 
