@@ -70,15 +70,15 @@ for link in all_categories:
 
 # открываем сохранённый файл
 with open("all_categories_links.json") as file:
-    all_links = json.load(file)
+    all_links = json.load(file)  # преобразование json в обычный словарь Python
+    print(f"\n{all_links}\n")
 
 # и считываем ссылки из файла
-for category in all_links:
+for category in list(all_links.values()):
     time.sleep(25)
-    category_url = category.get_attribute("href")
-    print(f"Перехожу по адресу категории {category_url}\n")
-    # кликаем на нужную категорию товаров
-    category.click()
+    category_url = browser.get(category)
+    print(f"Перехожу по адресу категории {str(category_url)}\n")
+
     time.sleep(random.randrange(2, 5))
     category_inner_name = browser.find_element(By.TAG_NAME, "h1").text
     time.sleep(random.randrange(2, 5))
