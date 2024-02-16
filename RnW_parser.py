@@ -60,6 +60,7 @@ for link in all_categories:
     link_text = link.text
     link_href = link.get_attribute("href")
     print(f"{link_text}: {link_href}")
+    time.sleep(random.randrange(5, 10))
 
     all_categories_links_dict[link_text] = link_href
 
