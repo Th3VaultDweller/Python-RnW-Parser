@@ -48,25 +48,25 @@ else:
 
 print("Перехожу в каталог товаров...\n")
 
-# находим каталог товаров на странице
-all_categories = browser.find_element(By.CLASS_NAME, "left_catalog_c").find_elements(
-    By.TAG_NAME, "a"
-)  # все категории товаров на сайте
+# # находим каталог товаров на странице
+# all_categories = browser.find_element(By.CLASS_NAME, "left_catalog_c").find_elements(
+#     By.TAG_NAME, "a"
+# )  # все категории товаров на сайте
 
-# берём каждую ссылку и каталога товаров
-print(f"Вывожу на экран все категории товаров и сохраняю их в файл...\n")
-all_categories_links_dict = {}
-for link in all_categories:
-    link_text = link.text
-    link_href = link.get_attribute("href")
-    print(f"{link_text}: {link_href}")
-    time.sleep(random.randrange(5, 10))
+# # берём каждую ссылку и каталога товаров
+# print(f"Вывожу на экран все категории товаров и сохраняю их в файл...\n")
+# all_categories_links_dict = {}
+# for link in all_categories:
+#     link_text = link.text
+#     link_href = link.get_attribute("href")
+#     print(f"{link_text}: {link_href}")
+#     time.sleep(random.randrange(2, 5))
 
-    all_categories_links_dict[link_text] = link_href
+#     all_categories_links_dict[link_text] = link_href
 
-    # сохраняем каждую ссылку из каталога товаров в отдельный json-файл
-    with open("all_categories_links.json", "w") as file:
-        json.dump(all_categories_links_dict, file, indent=4, ensure_ascii=False)
+#     # сохраняем каждую ссылку из каталога товаров в отдельный json-файл
+#     with open("all_categories_links.json", "w") as file:
+#         json.dump(all_categories_links_dict, file, indent=4, ensure_ascii=False)
 
 # открываем сохранённый файл
 with open("all_categories_links.json") as file:
@@ -75,6 +75,8 @@ with open("all_categories_links.json") as file:
 
 # и считываем ссылки из файла
 for category in list(all_links.values()):
+    if category == "Идеи для подарков":
+        pass
     time.sleep(25)
     category_url = browser.get(category)
     print(f"Перехожу по адресу категории {str(category_url)}\n")
