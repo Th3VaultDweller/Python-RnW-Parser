@@ -90,9 +90,9 @@ for category in list(all_links.values()):
     print("Начинаю парсинг информации...\n")
 
     # и пробуем собрать все товары из одной категории
-    all_product_links = browser.find_element(
-        By.XPATH, "/html/body/div[1]/div/div[2]/div/div[2]/div[6]"
-    ).find_elements(By.CLASS_NAME, "catalog_product_item_cont")
+    all_product_links = browser.find_elements(
+        By.CLASS_NAME, "catalog_product_item_cont"
+    )
 
     for i, link in enumerate(all_product_links):
 
