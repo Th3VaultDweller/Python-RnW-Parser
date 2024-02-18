@@ -26,6 +26,8 @@ option.add_argument("--start-maximized")  # включение полноэкр�
 browser = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
 browser = webdriver.Chrome(options=option)
 
+start_app_time = time.time()
+
 # определяем URL сайта
 url = "https://krasnoeibeloe.ru/"
 browser.get(url)
@@ -140,6 +142,9 @@ for category in list(all_links.values()):
         print(f"В категории <<{category_inner_name}>> нет информации для парсинга :(\n")
         pass
 
+end_time_app = time.time()
+
 print(f"Парсинг сайта {url} завершён!\n")
+print(f"Общее время парсинга: {start_app_time - end_time_app} секунд.")
 
 browser.quit()
