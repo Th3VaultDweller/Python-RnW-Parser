@@ -137,7 +137,7 @@ for category in list(all_links.values()):
             time.sleep(10)
 
     else:
-        print(f"В категории <<{category_inner_name}>> нет информации для парсинга :(")
+        print(f"В категории <<{category_inner_name}>> нет информации для парсинга :(\n")
         pass
 
 print(f"Парсинг сайта {url} завершён!\n")
