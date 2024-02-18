@@ -136,6 +136,13 @@ for category in list(all_links.values()):
         )
         time.sleep(random.randrange(5, 10))
 
+        # переходим на следующую страницу внутри одной категории товара
+        if browser.find_element(By.CLASS_NAME, "pag_arrow_right"):
+            browser.find_element(By.CLASS_NAME, "pag_arrow_right").click()
+        else:
+            pass
+
+
 print(f"Парсинг сайта {url} завершён!\n")
 
 browser.quit()
