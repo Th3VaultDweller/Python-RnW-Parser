@@ -81,67 +81,64 @@ for category in list(all_links.values()):
     time.sleep(random.randrange(2, 5))
     print(f"Выбираю категорию товара <<{category_inner_name}>>\n")
 
-    time.sleep(random.randrange(5, 10))
-    print("Начинаю парсинг информации...\n")
-
     # и пробуем собрать все товары из одной категории
     all_product_links = browser.find_elements(
         By.CLASS_NAME, "catalog_product_item_cont"
     )
-
-    for i, link in enumerate(all_product_links):
-
-        link_text = (
-            link.find_element(By.CLASS_NAME, "product_item_name")
-            .find_element(By.TAG_NAME, "a")
-            .text
-        )  # название товара
-
-        link_href = (
-            link.find_element(By.CLASS_NAME, "product_item_name")
-            .find_element(By.TAG_NAME, "a")
-            .get_property("href")
-        )  # ccылка на товар
-
-        link_subtitle = (
-            link.find_element(By.CLASS_NAME, "product_item_name")
-            .find_element(By.CLASS_NAME, "product-subtitle")
-            .text
-        )  # сопутствующая информация о товаре
-
-        link_rating = (
-            link.find_element(By.CLASS_NAME, "product_item_bottom")
-            .find_element(By.CLASS_NAME, "rate_votes")
-            .text
-        )  # количество оценок товара
-
-        print(i)  # нумерация товаров начинается с нуля
-
-        link_price = link.find_element(
-            By.CLASS_NAME, "product_item_bottom-btns"
-        )  # цена на товар
-
-        if link_price.find_element(By.TAG_NAME, "a").text:
-            print(f"Цену товара можно уточнить в магазине.")
-        else:
-            product_price = link_price.find_elements(
-                By.CLASS_NAME, "i_price"
-            )  # цена товара
-            for price in product_price:
-                if product_price:
-                    link_price = price.find_element(By.TAG_NAME, "div").text
-
-        print(
-            f"Название: {link_text}\nСтрана, объём и процент алкоголя: {link_subtitle}\nКоличество оценок: {link_rating}\nЦена: {link_price}\nСсылка: {link_href}\n"
-        )
+    if all_product_links:
         time.sleep(random.randrange(5, 10))
+        print("Начинаю парсинг информации...\n")
 
-        # переходим на следующую страницу внутри одной категории товара
-        if browser.find_element(By.CLASS_NAME, "pag_arrow_right"):
-            browser.find_element(By.CLASS_NAME, "pag_arrow_right").click()
-        else:
-            pass
+        for i, link in enumerate(all_product_links):
+            link_text = (
+                link.find_element(By.CLASS_NAME, "product_item_name")
+                .find_element(By.TAG_NAME, "a")
+                .text
+            )  # название товара
 
+            link_href = (
+                link.find_element(By.CLASS_NAME, "product_item_name")
+                .find_element(By.TAG_NAME, "a")
+                .get_property("href")
+            )  # ccылка на товар
+
+            link_subtitle = (
+                link.find_element(By.CLASS_NAME, "product_item_name")
+                .find_element(By.CLASS_NAME, "product-subtitle")
+                .text
+            )  # сопутствующая информация о товаре
+
+            link_rating = (
+                link.find_element(By.CLASS_NAME, "product_item_bottom")
+                .find_element(By.CLASS_NAME, "rate_votes")
+                .text
+            )  # количество оценок товара
+
+            print(i)  # нумерация товаров начинается с нуля
+
+            link_price = link.find_element(
+                By.CLASS_NAME, "product_item_bottom-btns"
+            )  # цена на товар
+
+            if link_price.find_element(By.TAG_NAME, "a").text:
+                print(f"Цену товара можно уточнить в магазине.")
+            else:
+                product_price = link_price.find_elements(
+                    By.CLASS_NAME, "i_price"
+                )  # цена товара
+                for price in product_price:
+                    if product_price:
+                        link_price = price.find_element(By.TAG_NAME, "div").text
+
+            print(
+                f"Название: {link_text}\nСтрана, объём и процент алкоголя: {link_subtitle}\nКоличество оценок: {link_rating}\nЦена: {link_price}\nСсылка: {link_href}\n"
+            )
+
+            time.sleep(10)
+
+    else:
+        print(f"В категории <<{category_inner_name}>> нет информации для парсинга :(")
+        pass
 
 print(f"Парсинг сайта {url} завершён!\n")
 
