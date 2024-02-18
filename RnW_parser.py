@@ -74,14 +74,14 @@ with open("all_categories_links.json") as file:
 
 # и считываем ссылки из файла
 for category in list(all_links.values()):
-    time.sleep(25)
+    time.sleep(random.randrange(5, 10))
     category_url = browser.get(category)
     time.sleep(random.randrange(2, 5))
     category_inner_name = browser.find_element(By.TAG_NAME, "h1").text
     time.sleep(random.randrange(2, 5))
     print(f"Выбираю категорию товара <<{category_inner_name}>>\n")
 
-    time.sleep(random.randrange(5, 15))
+    time.sleep(random.randrange(5, 10))
     print("Начинаю парсинг информации...\n")
 
     # и пробуем собрать все товары из одной категории
