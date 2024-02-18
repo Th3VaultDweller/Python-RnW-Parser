@@ -1,6 +1,7 @@
 import json
 import random
 import time
+from timeit import default_timer as timer
 
 import requests
 from bs4 import BeautifulSoup
@@ -26,7 +27,7 @@ option.add_argument("--start-maximized")  # включение полноэкр�
 browser = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
 browser = webdriver.Chrome(options=option)
 
-start_app_time = time.time()
+start_app_time = timer()
 
 # определяем URL сайта
 url = "https://krasnoeibeloe.ru/"
@@ -142,9 +143,12 @@ for category in list(all_links.values()):
         print(f"В категории <<{category_inner_name}>> нет информации для парсинга :(\n")
         pass
 
-end_time_app = time.time()
+finish_app_time = timer()
+
+overall_app_time = start_app_time - finish_app_time
 
 print(f"Парсинг сайта {url} завершён!\n")
-print(f"Общее время парсинга: {start_app_time - end_time_app} секунд.")
+
+print(f"Общее время парсинга: {overall_app_time} секунд.\n")
 
 browser.quit()
