@@ -139,19 +139,15 @@ for category in list(all_links.values()):
 
                 print(i)  # нумерация товаров начинается с нуля
 
-                link_price = link.find_element(
-                    By.CLASS_NAME, "product_item_bottom-btns"
-                )  # цена на товар
+                try:
+                    link_price = (
+                        link.find_element(By.CLASS_NAME, "product_item_bottom-btns")
+                        .find_element(By.CLASS_NAME, "i_price")
+                        .text
+                    )  # цена на товар
 
-                if link_price.find_element(By.TAG_NAME, "a").text:
-                    print(f"Цену товара можно уточнить в магазине.")
-                else:
-                    product_price = link_price.find_elements(
-                        By.CLASS_NAME, "i_price"
-                    )  # цена товара
-                    for price in product_price:
-                        if product_price:
-                            link_price = price.find_element(By.TAG_NAME, "div").text
+                except:
+                    link_price = "не указана, можно уточнить в магазине"
 
                 print(
                     f"Название: {link_text}\nСтрана, объём и процент алкоголя: {link_subtitle}\nКоличество оценок: {link_rating}\nЦена: {link_price}\nСсылка: {link_href}\n"
@@ -159,7 +155,7 @@ for category in list(all_links.values()):
 
                 all_data.append(
                     {
-                        category_inner_name(
+                        category_inner_name: (
                             {
                                 "link_text": link_text,
                                 "link_subtitle": link_subtitle,
@@ -171,14 +167,18 @@ for category in list(all_links.values()):
                     }
                 )
 
-                with open(f"red_n_white_{current_time}.csv", "a") as file:
-                    writer = csv.writer(file)
+                # with open(
+                #     f"red_n_white_{current_time}.csv", "a", encoding="utf-8"
+                # ) as file:
+                #     writer = csv.writer(file)
 
-                    writer.writerow(
-                        (link_text, link_subtitle, link_rating, link_price, link_href)
-                    )
+                #     writer.writerow(
+                #         (link_text, link_subtitle, link_rating, link_price, link_href)
+                #     )
 
-                with open(f"red_n_white_{current_time}.json", "w") as file:
+                with open(
+                    f"red_n_white_{current_time}.json", "w", encoding="utf-8"
+                ) as file:
                     json.dump(all_data, file, indent=4, ensure_ascii=False)
 
                 time.sleep(10)
