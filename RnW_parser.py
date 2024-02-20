@@ -167,11 +167,13 @@ for category in list(all_links.values()):
                     }
                 )
 
+                # запись данных в json-словарь
                 with open(
                     f"red_n_white_{current_time}.json", "w", encoding="utf-8"
                 ) as file:
                     json.dump(all_data, file, indent=4, ensure_ascii=False)
-                
+
+                # запись данных в csv-таблицу
                 with open(
                     f"red_n_white_{current_time}.csv", "a", encoding="utf-8"
                 ) as file:
@@ -180,7 +182,6 @@ for category in list(all_links.values()):
                     writer.writerow(
                         (link_text, link_subtitle, link_rating, link_price, link_href)
                     )
-
 
                 time.sleep(10)
 
