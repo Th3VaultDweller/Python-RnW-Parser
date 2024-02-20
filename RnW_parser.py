@@ -167,14 +167,14 @@ for category in list(all_links.values()):
                     }
                 )
 
-                # with open(
-                #     f"red_n_white_{current_time}.csv", "a", encoding="utf-8"
-                # ) as file:
-                #     writer = csv.writer(file)
+                with open(
+                    f"red_n_white_{current_time}.csv", "a", encoding="utf-8"
+                ) as file:
+                    writer = csv.writer(file)
 
-                #     writer.writerow(
-                #         (link_text, link_subtitle, link_rating, link_price, link_href)
-                #     )
+                    writer.writerow(
+                        (link_text, link_subtitle, link_rating, link_price, link_href)
+                    )
 
                 with open(
                     f"red_n_white_{current_time}.json", "w", encoding="utf-8"
