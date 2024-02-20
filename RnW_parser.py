@@ -5,15 +5,12 @@ import random
 import time
 from timeit import default_timer as timer
 
-import requests
-from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException, TimeoutException
 from selenium.webdriver import Chrome
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait as wait
 from webdriver_manager.chrome import ChromeDriverManager
@@ -39,7 +36,7 @@ with open(f"red_n_white_{current_time}.csv", "w") as file:
     writer.writerow(
         (
             "Название товара",
-            "Сопутствующая информаця о товаре",
+            "Сопутствующая информация о товаре",
             "Количество оценок",
             "Цена",
             "Ссылка на товар",
@@ -162,11 +159,15 @@ for category in list(all_links.values()):
 
                 all_data.append(
                     {
-                        "link_text": link_text,
-                        "link_subtitle": link_subtitle,
-                        "link_rating": link_rating,
-                        "link_price": link_price,
-                        "link_href": link_href,
+                        category_inner_name(
+                            {
+                                "link_text": link_text,
+                                "link_subtitle": link_subtitle,
+                                "link_rating": link_rating,
+                                "link_price": link_price,
+                                "link_href": link_href,
+                            }
+                        )
                     }
                 )
 
@@ -177,8 +178,8 @@ for category in list(all_links.values()):
                         (link_text, link_subtitle, link_rating, link_price, link_href)
                     )
 
-                # with open(f"red_n_white_{current_time}.json", "w") as file:
-                #     json.dump(all_data, file, indent=4, ensure_ascii=False)
+                with open(f"red_n_white_{current_time}.json", "w") as file:
+                    json.dump(all_data, file, indent=4, ensure_ascii=False)
 
                 time.sleep(10)
 
