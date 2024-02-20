@@ -184,6 +184,7 @@ for category in list(all_links.values()):
                 time.sleep(10)
 
         else:
+            # на случай, если в существующей категории вообще ничего нет
             print(
                 f"В категории <<{category_inner_name}>> нет информации для парсинга :(\n"
             )
