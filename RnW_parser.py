@@ -1,3 +1,5 @@
+import csv
+import datetime
 import json
 import random
 import time
@@ -28,6 +30,21 @@ browser = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
 browser = webdriver.Chrome(options=option)
 
 start_app_time = timer()  # отсчёт с перехода на страницу сайта
+
+# создаём csv-таблицу для записи собранной информации
+current_time = datetime.datetime.now().strftime("%d_%m_%Y_%H_%M")
+with open(f"red_n_white_{current_time}.csv", "w") as file:
+    writer = csv.writer(file)
+
+    writer.writerow(
+        (
+            "Название товара",
+            "Сопутствующая информаця о товаре",
+            "Количество оценок",
+            "Цена",
+            "Ссылка на товар",
+        )
+    )
 
 # определяем URL сайта
 url = "https://krasnoeibeloe.ru/"
@@ -88,6 +105,8 @@ for category in list(all_links.values()):
         print(f"Скрипт для <<{category_inner_name}>> в процессе написания!\n")
         pass
     else:
+        # создаём пустой список, куда будем складывать всю инфу
+        all_data = []
         # пробуем собрать все товары из одной категории
         all_product_links = browser.find_elements(
             By.CLASS_NAME, "catalog_product_item_cont"
@@ -140,6 +159,26 @@ for category in list(all_links.values()):
                 print(
                     f"Название: {link_text}\nСтрана, объём и процент алкоголя: {link_subtitle}\nКоличество оценок: {link_rating}\nЦена: {link_price}\nСсылка: {link_href}\n"
                 )
+
+                all_data.append(
+                    {
+                        "link_text": link_text,
+                        "link_subtitle": link_subtitle,
+                        "link_rating": link_rating,
+                        "link_price": link_price,
+                        "link_href": link_href,
+                    }
+                )
+
+                with open(f"red_n_white_{current_time}.csv", "a") as file:
+                    writer = csv.writer(file)
+
+                    writer.writerow(
+                        (link_text, link_subtitle, link_rating, link_price, link_href)
+                    )
+
+                # with open(f"red_n_white_{current_time}.json", "w") as file:
+                #     json.dump(all_data, file, indent=4, ensure_ascii=False)
 
                 time.sleep(10)
 
