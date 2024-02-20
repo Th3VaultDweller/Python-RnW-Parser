@@ -27,7 +27,7 @@ option.add_argument("--start-maximized")  # включение полноэкр�
 browser = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
 browser = webdriver.Chrome(options=option)
 
-start_app_time = timer()
+start_app_time = timer()  # отсчёт с перехода на страницу сайта
 
 # определяем URL сайта
 url = "https://krasnoeibeloe.ru/"
@@ -83,7 +83,7 @@ for category in list(all_links.values()):
     category_inner_name = browser.find_element(By.TAG_NAME, "h1").text
     time.sleep(random.randrange(2, 5))
     print(f"Выбираю категорию товара <<{category_inner_name}>>\n")
-    
+
     if category_inner_name == "Идеи для подарков":
         print(f"Скрипт для <<{category_inner_name}>> в процессе написания!\n")
         pass
@@ -149,9 +149,8 @@ for category in list(all_links.values()):
             )
             pass
 
-finish_app_time = timer()
 
-overall_app_time = start_app_time - finish_app_time
+overall_app_time = timer() - start_app_time  # общий подсчёт времени
 
 print(f"Парсинг сайта {url} завершён!\n")
 
