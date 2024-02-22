@@ -49,11 +49,11 @@ with open(
 # определяем URL сайта
 url = "https://krasnoeibeloe.ru/"
 browser.get(url)
-print(f"Перехожу на сайт {url}...\n")
+print(f"[INFO] Перехожу на сайт {url}...\n")
 
 # ждём появления кнопки и проходим проверку на возраст
 element_to_be_clicked = "/html/body/div[7]/div/div/div/div/div/div[2]/div[2]/a[1]"
-print("Жду появления окна с подтверждением возраста...\n")
+print("[INFO] Жду появления окна с подтверждением возраста...\n")
 
 if element_to_be_clicked:
     age_popup = (
@@ -61,32 +61,32 @@ if element_to_be_clicked:
         .until(EC.visibility_of_element_located((By.XPATH, element_to_be_clicked)))
         .click()
     )
-    print("Проверка на возраст прошла успешно.\n")
+    print("[INFO] Проверка на возраст прошла успешно.\n")
 else:
     pass
     time.sleep(random.randrange(2, 5))
 
-print("Перехожу в каталог товаров...\n")
+print("[INFO] Перехожу в каталог товаров...\n")
 
-# # находим каталог товаров на странице
-# all_categories = browser.find_element(By.CLASS_NAME, "left_catalog_c").find_elements(
-#     By.TAG_NAME, "a"
-# )  # все категории товаров на сайте
+# находим каталог товаров на странице
+all_categories = browser.find_element(By.CLASS_NAME, "left_catalog_c").find_elements(
+    By.TAG_NAME, "a"
+)  # все категории товаров на сайте
 
-# # берём каждую ссылку и каталога товаров
-# print(f"Вывожу на экран все категории товаров и сохраняю их в файл...\n")
-# all_categories_links_dict = {}
-# for link in all_categories:
-#     link_text = link.text
-#     link_href = link.get_attribute("href")
-#     print(f"{link_text}: {link_href}")
-#     time.sleep(random.randrange(2, 5))
+# берём каждую ссылку и каталога товаров
+print(f"[INFO] Вывожу на экран все категории товаров и сохраняю их в файл...\n")
+all_categories_links_dict = {}
+for link in all_categories:
+    link_text = link.text
+    link_href = link.get_attribute("href")
+    print(f"{link_text}: {link_href}")
+    time.sleep(random.randrange(2, 5))
 
-#     all_categories_links_dict[link_text] = link_href
+    all_categories_links_dict[link_text] = link_href
 
-#     # сохраняем каждую ссылку из каталога товаров в отдельный json-файл
-#     with open("all_categories_links.json", "w") as file:
-#         json.dump(all_categories_links_dict, file, indent=4, ensure_ascii=False)
+    # сохраняем каждую ссылку из каталога товаров в отдельный json-файл
+    with open("all_categories_links.json", "w") as file:
+        json.dump(all_categories_links_dict, file, indent=4, ensure_ascii=False)
 
 # открываем сохранённый файл
 with open("all_categories_links.json") as file:
@@ -99,21 +99,23 @@ for category in list(all_links.values()):
     time.sleep(random.randrange(2, 5))
     category_inner_name = browser.find_element(By.TAG_NAME, "h1").text
     time.sleep(random.randrange(2, 5))
-    print(f"Выбираю категорию товара <<{category_inner_name}>>\n")
+    print(f"\n[INFO] Выбираю категорию товара <<{category_inner_name}>>\n")
+
+    # создаём пустой список, куда будем складывать всю инфу
+    all_data = []
 
     if category_inner_name == "Идеи для подарков":
-        print(f"Скрипт для <<{category_inner_name}>> в процессе написания!\n")
+        print(f"[INFO] Скрипт для <<{category_inner_name}>> в процессе написания!\n")
         pass
+
     else:
-        # создаём пустой список, куда будем складывать всю инфу
-        all_data = []
         # пробуем собрать все товары из одной категории
         all_product_links = browser.find_elements(
             By.CLASS_NAME, "catalog_product_item_cont"
         )
         if all_product_links:
             time.sleep(random.randrange(5, 10))
-            print("Начинаю парсинг информации...\n")
+            print("[INFO] Начинаю парсинг информации...\n")
 
             for i, link in enumerate(all_product_links):
                 link_text = (
@@ -157,7 +159,7 @@ for category in list(all_links.values()):
                     link_price = "не указана, можно уточнить в магазине"
 
                 print(
-                    f"Название: {link_text}\nСопутствующая информация: {link_subtitle}\nКоличество оценок: {link_rating}\nЦена: {link_price}\nСсылка: {link_href}\n"
+                    f"Название: {link_text}\nСопутствующая информация: {link_subtitle}\nИзображение: {link_image}\nКоличество оценок: {link_rating}\nЦена: {link_price}\nСсылка: {link_href}\n"
                 )
 
                 all_data.append(
@@ -207,15 +209,15 @@ for category in list(all_links.values()):
         else:
             # на случай, если в существующей категории вообще ничего нет
             print(
-                f"В категории <<{category_inner_name}>> нет информации для парсинга :(\n"
+                f"[INFO] В категории <<{category_inner_name}>> нет информации для парсинга :(\n"
             )
             pass
 
 
 overall_app_time = timer() - start_app_time  # общий подсчёт времени
 
-print(f"Парсинг сайта {url} завершён!\n")
-print(f"Количество наименований: {len(all_data)}\n")
-print(f"Общее время парсинга: {round(overall_app_time)} секунд(а).\n")
+print(f"[INFO] Парсинг сайта {url} завершён!\n")
+print(f"[INFO] Количество наименований: {len(all_data)}\n")
+print(f"[INFO] Общее время парсинга: {round(overall_app_time)} секунд(а).\n")
 
 browser.quit()
