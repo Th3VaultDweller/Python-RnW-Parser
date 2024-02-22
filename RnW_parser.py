@@ -30,13 +30,16 @@ start_app_time = timer()  # отсчёт с перехода на страниц
 
 # создаём csv-таблицу для записи собранной информации
 current_time = datetime.datetime.now().strftime("%d_%m_%Y_%H_%M")
-with open(f"red_n_white_{current_time}.csv", "w") as file:
+with open(
+    f"parsed_data_csv\Krasnoe_n_Beloe_{current_time}.csv", "w", encoding="utf-8"
+) as file:
     writer = csv.writer(file)
 
     writer.writerow(
         (
             "Название товара",
             "Сопутствующая информация о товаре",
+            "Изображение",
             "Количество оценок",
             "Цена",
             "Ссылка на товар",
@@ -65,25 +68,25 @@ else:
 
 print("Перехожу в каталог товаров...\n")
 
-# находим каталог товаров на странице
-all_categories = browser.find_element(By.CLASS_NAME, "left_catalog_c").find_elements(
-    By.TAG_NAME, "a"
-)  # все категории товаров на сайте
+# # находим каталог товаров на странице
+# all_categories = browser.find_element(By.CLASS_NAME, "left_catalog_c").find_elements(
+#     By.TAG_NAME, "a"
+# )  # все категории товаров на сайте
 
-# берём каждую ссылку и каталога товаров
-print(f"Вывожу на экран все категории товаров и сохраняю их в файл...\n")
-all_categories_links_dict = {}
-for link in all_categories:
-    link_text = link.text
-    link_href = link.get_attribute("href")
-    print(f"{link_text}: {link_href}")
-    time.sleep(random.randrange(2, 5))
+# # берём каждую ссылку и каталога товаров
+# print(f"Вывожу на экран все категории товаров и сохраняю их в файл...\n")
+# all_categories_links_dict = {}
+# for link in all_categories:
+#     link_text = link.text
+#     link_href = link.get_attribute("href")
+#     print(f"{link_text}: {link_href}")
+#     time.sleep(random.randrange(2, 5))
 
-    all_categories_links_dict[link_text] = link_href
+#     all_categories_links_dict[link_text] = link_href
 
-    # сохраняем каждую ссылку из каталога товаров в отдельный json-файл
-    with open("all_categories_links.json", "w") as file:
-        json.dump(all_categories_links_dict, file, indent=4, ensure_ascii=False)
+#     # сохраняем каждую ссылку из каталога товаров в отдельный json-файл
+#     with open("all_categories_links.json", "w") as file:
+#         json.dump(all_categories_links_dict, file, indent=4, ensure_ascii=False)
 
 # открываем сохранённый файл
 with open("all_categories_links.json") as file:
@@ -137,6 +140,10 @@ for category in list(all_links.values()):
                     .text
                 )  # количество оценок товара
 
+                link_image = link.find_element(By.TAG_NAME, "img").get_property(
+                    "src"
+                )  # изображение товара
+
                 print(i)  # нумерация товаров начинается с нуля
 
                 try:
@@ -150,7 +157,7 @@ for category in list(all_links.values()):
                     link_price = "не указана, можно уточнить в магазине"
 
                 print(
-                    f"Название: {link_text}\nСтрана, объём и процент алкоголя: {link_subtitle}\nКоличество оценок: {link_rating}\nЦена: {link_price}\nСсылка: {link_href}\n"
+                    f"Название: {link_text}\nСопутствующая информация: {link_subtitle}\nКоличество оценок: {link_rating}\nЦена: {link_price}\nСсылка: {link_href}\n"
                 )
 
                 all_data.append(
@@ -159,6 +166,7 @@ for category in list(all_links.values()):
                             {
                                 "link_text": link_text,
                                 "link_subtitle": link_subtitle,
+                                "link_image": link_image,
                                 "link_rating": link_rating,
                                 "link_price": link_price,
                                 "link_href": link_href,
@@ -169,18 +177,29 @@ for category in list(all_links.values()):
 
                 # запись данных в json-словарь
                 with open(
-                    f"red_n_white_{current_time}.json", "w", encoding="utf-8"
+                    f"parsed_data_json\Krasnoe_n_Beloe_{current_time}.json",
+                    "w",
+                    encoding="utf-8",
                 ) as file:
                     json.dump(all_data, file, indent=4, ensure_ascii=False)
 
                 # запись данных в csv-таблицу
                 with open(
-                    f"red_n_white_{current_time}.csv", "a", encoding="utf-8"
+                    f"parsed_data_csv\Krasnoe_n_Beloe_{current_time}.csv",
+                    "a",
+                    encoding="utf-8",
                 ) as file:
                     writer = csv.writer(file)
 
                     writer.writerow(
-                        (link_text, link_subtitle, link_rating, link_price, link_href)
+                        (
+                            link_text,
+                            link_subtitle,
+                            link_image,
+                            link_rating,
+                            link_price,
+                            link_href,
+                        )
                     )
 
                 time.sleep(10)
@@ -196,7 +215,7 @@ for category in list(all_links.values()):
 overall_app_time = timer() - start_app_time  # общий подсчёт времени
 
 print(f"Парсинг сайта {url} завершён!\n")
-
+print(f"Количество наименований: {len(all_data)}\n")
 print(f"Общее время парсинга: {round(overall_app_time)} секунд(а).\n")
 
 browser.quit()
