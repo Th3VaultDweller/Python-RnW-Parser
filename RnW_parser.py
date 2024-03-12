@@ -115,10 +115,10 @@ for category in list(all_links.values()):
         all_product_links = browser.find_elements(
             By.CLASS_NAME, "catalog_product_item_cont"
         )
+        
         if all_product_links:
             time.sleep(random.randrange(5, 10))
             print("[INFO] Начинаю парсинг информации...\n")
-
 
             for i, link in enumerate(all_product_links):
 
