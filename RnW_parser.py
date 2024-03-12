@@ -70,25 +70,25 @@ else:
 
 print("[INFO] Перехожу в каталог товаров...\n")
 
-# # находим каталог товаров на странице
-# all_categories = browser.find_element(By.CLASS_NAME, "left_catalog_c").find_elements(
-#     By.TAG_NAME, "a"
-# )  # все категории товаров на сайте
+# находим каталог товаров на странице
+all_categories = browser.find_element(By.CLASS_NAME, "left_catalog_c").find_elements(
+    By.TAG_NAME, "a"
+)  # все категории товаров на сайте
 
-# # берём каждую ссылку и каталога товаров
-# print(f"[INFO] Вывожу на экран все категории товаров и сохраняю их в файл...\n")
-# all_categories_links_dict = {}
-# for link in all_categories:
-#     link_text = link.text
-#     link_href = link.get_attribute("href")
-#     print(f"{link_text}: {link_href}")
-#     time.sleep(random.randrange(2, 5))
+# берём каждую ссылку и каталога товаров
+print(f"[INFO] Вывожу на экран все категории товаров и сохраняю их в файл...\n")
+all_categories_links_dict = {}
+for link in all_categories:
+    link_text = link.text
+    link_href = link.get_attribute("href")
+    print(f"{link_text}: {link_href}")
+    time.sleep(random.randrange(2, 5))
 
-#     all_categories_links_dict[link_text] = link_href
+    all_categories_links_dict[link_text] = link_href
 
-#     # сохраняем каждую ссылку из каталога товаров в отдельный json-файл
-#     with open("all_categories_links.json", "w") as file:
-#         json.dump(all_categories_links_dict, file, indent=4, ensure_ascii=False)
+    # сохраняем каждую ссылку из каталога товаров в отдельный json-файл
+    with open("all_categories_links.json", "w") as file:
+        json.dump(all_categories_links_dict, file, indent=4, ensure_ascii=False)
 
 # открываем сохранённый файл
 with open("all_categories_links.json") as file:
@@ -119,9 +119,6 @@ for category in list(all_links.values()):
             time.sleep(random.randrange(5, 10))
             print("[INFO] Начинаю парсинг информации...\n")
 
-            # last_page_number = browser.find_elements(By.CLASS_NAME, "bl_pagination")[
-            #     1
-            # ].text
 
             for i, link in enumerate(all_product_links):
 
@@ -212,19 +209,6 @@ for category in list(all_links.values()):
                     )
 
                 time.sleep(10)
-
-            try:
-                pagination_next_page = browser.find_element(
-                    By.CLASS_NAME, "pag_arrow_right"
-                ).click()
-
-                # browser.get(f"https://krasnoeibeloe.ru" + {pagination_next_page})
-                print("[INFO] Перехожу на следующую страницу.")
-                time.sleep(10)
-            except:
-                print("[INFO] В этой категории больше нет страниц.")
-                print(pagination_next_page)
-                pass
 
         else:
             # на случай, если в существующей категории вообще ничего нет
