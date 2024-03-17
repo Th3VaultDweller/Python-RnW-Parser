@@ -74,7 +74,7 @@ all_categories = browser.find_element(By.CLASS_NAME, "left_catalog_c").find_elem
     By.TAG_NAME, "a"
 )  # все категории товаров на сайте
 
-# берём каждую ссылку и каталога товаров
+# берём каждую ссылку из каталога товаров
 print(f"[INFO] Вывожу на экран все категории товаров и сохраняю их в файл...\n")
 all_categories_links_dict = {}
 for link in all_categories:
