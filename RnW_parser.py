@@ -114,7 +114,7 @@ for category in list(all_links.values()):
         all_product_links = browser.find_elements(
             By.CLASS_NAME, "catalog_product_item_cont"
         )
-        
+
         if all_product_links:
             time.sleep(random.randrange(5, 10))
             print("[INFO] Начинаю парсинг информации...\n")
@@ -162,7 +162,14 @@ for category in list(all_links.values()):
                     link_price = "не указана, можно уточнить в магазине"
 
                 print(
-                    f"Название: {link_text}\nСопутствующая информация: {link_subtitle}\nИзображение: {link_image}\nКоличество оценок: {link_rating}\nЦена: {link_price}\nСсылка: {link_href}\n"
+                    f"""
+                    Название: {link_text}\n
+                    Сопутствующая информация: {link_subtitle}\n
+                    Изображение: {link_image}\n
+                    Количество оценок: {link_rating}\n
+                    Цена: {link_price}\n
+                    Ссылка: {link_href}\n
+                    """
                 )
 
                 all_data.append(
